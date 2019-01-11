@@ -9,6 +9,10 @@ if [ -n "$1" ]; then
   FLAG=$1
 fi
 
+if [ "testnet" == "$FLAG" ]; then
+  FLAG=
+fi
+
 VER=`git rev-parse HEAD`
 
 echo 'VER:'$VER
@@ -17,7 +21,7 @@ rm -rf dist && yarn && TESTNET=$FLAG yarn run build
 
 img_name=aci-frontend-ts
 
-if [ "testnet" != "$FLAG" ]; then
+if [ "testnet_stg" == "$FLAG" ]; then
   img_name=$img_name-stg
 fi
 
