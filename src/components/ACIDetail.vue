@@ -65,7 +65,7 @@
           <v-flex class="body-2" xs3 md2>{{ $t("message.tbl_tx_id") }}:</v-flex>
           <v-flex v-if="tx_id=='' || tx_id==undefined">{{ $t("message.empty_hash") }}</v-flex>
           <v-flex v-else>
-            <a :href="cEostracerUrl + tx_id">{{ tx_id }}</a>
+            <a :href="baseUrl + tx_id">{{ tx_id }}</a>
           </v-flex>
         </v-layout>
         <v-layout wrap></v-layout>
@@ -88,7 +88,7 @@ import {
 } from '@/utils/dt_tools';
 
 import {
-  eostracerUrl,
+  txUrl,
 } from '@/config/app_config';
 
 export default {
@@ -98,7 +98,7 @@ export default {
   data() {
     return {
       show_cond: 0,
-      cEostracerUrl: eostracerUrl,
+      baseUrl: txUrl,
       create_time: 0,
       account: '',
       name: '',

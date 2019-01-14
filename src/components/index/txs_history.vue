@@ -1,6 +1,6 @@
 <template>
   <div class="chart-container">
-    <div id="userChart" style="height: 250px" >图表加载失败</div>
+    <div id="userChart" style="height: 350px" >图表加载失败</div>
   </div>
 </template>
 

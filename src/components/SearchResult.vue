@@ -1,81 +1,86 @@
 <template>
-<div>
-  <div v-if="showCond == 0" class="display-1 text-lg-center">
-    {{ $t("message.loading") }}
+  <div>
+    <div v-if="showCond == 0" class="display-1 text-lg-center">{{ $t("message.loading") }}</div>
+    <div v-else-if="showCond == 1" class="body-1">
+      <v-container fluid>
+        <v-layout row wrap class="headline">
+          <v-spacer></v-spacer>
+          <v-flex class="text-lg-center">{{ $t("message.tx_list") }}</v-flex>
+          <v-spacer></v-spacer>
+        </v-layout>
+
+        <v-data-table
+          hide-actions
+          :headers="fields"
+          :items="tableData"
+          :loading="loading"
+          class="elevation-1"
+        >
+          <template slot="items" slot-scope="props">
+            <tr class="text-xs-left" @click="viewDetail(props.item.hash)">
+              <td>{{ props.item.account }}</td>
+              <td>
+                <div
+                  v-if="props.item.name==='' || props.item.name===undefined"
+                >{{ $t("message.empty_info") }}</div>
+                <div v-else>
+                  <div>{{ props.item.name }}</div>
+                </div>
+              </td>
+              <td>
+                <div
+                  v-if="props.item.personId==='' || props.item.personId===undefined"
+                >{{ $t("message.empty_info") }}</div>
+                <div v-else>
+                  <div>{{ props.item.personId }}</div>
+                </div>
+              </td>
+              <td class="red--text">{{ props.item.moralCrisisType }}</td>
+              <td>{{ transDatetime(props.item.recordTime) }}</td>
+              <td>
+                <div
+                  v-if="props.item.txId === '' || props.item.txId === undefined"
+                >{{ $t("message.empty_hash") }}</div>
+                <div v-else>
+                  <div>
+                    <a :href="baseUrl + props.item.txId">{{ props.item.txId }}</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
+
+        <v-layout row wrap class="mt-2">
+          <v-spacer></v-spacer>
+          <v-flex class="text-lg-right">
+            <b-select
+              style="width:70px"
+              @change="handleSizeChange"
+              v-model="pageSize"
+              :options="pageSizes"
+            />
+          </v-flex>
+          <v-flex class="text-lg-left">
+            <b-pagination
+              @change="handleCurrentChange"
+              size="md"
+              :total-rows="totalCount"
+              v-model="page"
+              :per-page="pageSize"
+            ></b-pagination>
+          </v-flex>
+          <v-spacer></v-spacer>
+        </v-layout>
+
+        <v-layout row wrap>
+          <v-spacer></v-spacer>
+          <v-btn dark @click="onBack">{{ $t("message.Back") }}</v-btn>
+          <v-spacer></v-spacer>
+        </v-layout>
+      </v-container>
+    </div>
   </div>
-  <div v-else-if="showCond == 1" class="body-1">
-    <v-container fluid>
-
-      <v-layout row wrap class='headline'>
-        <v-spacer></v-spacer>
-        <v-flex class="text-lg-center">
-          {{ $t("message.tx_list") }}
-        </v-flex>
-        <v-spacer></v-spacer>
-      </v-layout>
-
-      <v-data-table hide-actions :headers="fields" :items="tableData" :loading="loading" class="elevation-1">
-        <template slot="items" slot-scope="props">
-          <tr class="text-xs-left" @click="viewDetail(props.item.hash)">
-            <td>{{ props.item.account }}</td>
-            <td>
-              <div v-if="props.item.name==='' || props.item.name===undefined">
-                {{ $t("message.empty_info") }}
-              </div>
-              <div v-else>
-                <div>
-                  {{ props.item.name }}
-                </div>
-              </div>
-            </td>
-            <td>
-              <div v-if="props.item.personId==='' || props.item.personId===undefined">
-                {{ $t("message.empty_info") }}
-              </div>
-              <div v-else>
-                <div>
-                  {{ props.item.personId }}
-                </div>
-              </div>
-            </td>
-            <td class="red--text">{{ props.item.moralCrisisType }}</td>
-            <td>{{ transDatetime(props.item.recordTime) }}</td>
-            <td>
-              <div v-if="props.item.txId === '' || props.item.txId === undefined">
-                {{ $t("message.empty_hash") }}
-              </div>
-              <div v-else>
-                <div>
-                  <a :href="cEostracerUrl + props.item.txId">{{ props.item.txId }}</a>
-                  </a>
-                </div>
-              </div>
-            </td>
-
-          </tr>
-        </template>
-      </v-data-table>
-
-      <v-layout row wrap class="mt-2">
-        <v-spacer></v-spacer>
-        <v-flex class="text-lg-right">
-          <b-select style="width:70px" @change="handleSizeChange" v-model="pageSize" :options="pageSizes" />
-        </v-flex>
-        <v-flex class="text-lg-left">
-          <b-pagination @change='handleCurrentChange' size="md" :total-rows="totalCount" v-model="page" :per-page="pageSize">
-          </b-pagination>
-        </v-flex>
-        <v-spacer></v-spacer>
-      </v-layout>
-
-      <v-layout row wrap>
-        <v-spacer></v-spacer>
-        <v-btn dark @click="onBack">{{ $t("message.Back") }}</v-btn>
-        <v-spacer></v-spacer>
-      </v-layout>
-    </v-container>
-  </div>
-</div>
 </template>
 
 <style scoped>
@@ -87,20 +92,16 @@
 <script>
 import bus from '@/utils/event';
 import qs from 'qs';
-import {
-  toLocalTime,
-} from '@/utils/dt_tools';
+import { toLocalTime } from '@/utils/dt_tools';
 
-import {
-  eostracerUrl,
-} from '@/config/app_config';
+import { txUrl } from '@/config/app_config';
 
 export default {
   components: {},
   computed: {
-
     fields() {
-      return [{
+      return [
+        {
           value: 'account',
           align: 'left',
           sortable: false,
@@ -138,12 +139,11 @@ export default {
         },
       ];
     },
-
   },
   data() {
     return {
       loading: true,
-      cEostracerUrl: eostracerUrl,
+      baseUrl: txUrl,
       totalCount: 0,
       greetingMsg: '',
       tableData: [],
@@ -162,7 +162,6 @@ export default {
     $route: 'fetchData',
   },
   methods: {
-
     transDatetime(datetime) {
       return toLocalTime(datetime, this.$i18n.locale);
     },
@@ -212,7 +211,11 @@ export default {
       if (self.page < 1) {
         self.page = 1;
       }
-      if (pageSize === undefined || isNaN(pageSize) || self.pageSizes.indexOf(pageSize) === -1) {
+      if (
+        pageSize === undefined ||
+        isNaN(pageSize) ||
+        self.pageSizes.indexOf(pageSize) === -1
+      ) {
         pageSize = self.pageSizes[0];
       }
       self.pageSize = pageSize;
@@ -222,18 +225,20 @@ export default {
         page: self.page - 1,
         page_size: self.pageSize,
       };
-      self.$http.get('/aci_api/creditinquiry/list?' + qs.stringify(params)).then(
-        (response) => {
-          if (response.status === 200) {
-            self.totalCount = response.data.data.total_count;
-            self.tableData = response.data.data.lst;
-            self.showCond = 1;
-          }
-        },
-        (error) => {
-          // console.log(error);
-        },
-      );
+      self.$http
+        .get('/aci_api/creditinquiry/list?' + qs.stringify(params))
+        .then(
+          (response) => {
+            if (response.status === 200) {
+              self.totalCount = response.data.data.total_count;
+              self.tableData = response.data.data.lst;
+              self.showCond = 1;
+            }
+          },
+          (error) => {
+            // console.log(error);
+          },
+        );
     },
     onBack() {
       this.$router.go(-1);

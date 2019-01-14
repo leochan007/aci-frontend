@@ -49,6 +49,9 @@ const cn = {
     ClassifiedChartTitle: '不诚信类型分类统计',
     ClassifiedChartSubtitle: '数据来自于阿尔法车链社区!',
     ClassifiedChartNumber: '数目',
+    EosSCAddr: '阿尔法车链智能合约',
+    EosSCInfo1: '请点击',
+    EosSCInfo2: '在EOS主网查看',
   },
 };
 

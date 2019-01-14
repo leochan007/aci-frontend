@@ -1,4 +1,6 @@
-const eostracerUrl = process.env.EOSTRACE_URL;
+const txUrl = process.env.TX_URL;
+const account = process.env.ACCOUNT;
+const accountUrl = process.env.ACCOUNT_URL;
 
 const axiosConf = {
     baseURL: process.env.BACKEND_URL,
@@ -9,6 +11,8 @@ const axiosConf = {
 };
 
 export {
-    eostracerUrl,
+    txUrl,
+    account,
+    accountUrl,
     axiosConf,
 };

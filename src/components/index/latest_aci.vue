@@ -31,8 +31,7 @@
         </div>
         <div v-else>
           <div>
-            <a :href="cEostracerUrl + props.item.txId">{{ props.item.txId }}</a>
-            </a>
+            <a :href="baseUrl + props.item.txId">{{ props.item.txId }}</a>
           </div>
         </div>
       </td>
@@ -59,7 +58,7 @@ import {
 } from '@/utils/dt_tools';
 
 import {
-  eostracerUrl,
+  txUrl,
 } from '@/config/app_config';
 
 export default {
@@ -108,7 +107,7 @@ export default {
   },
   data() {
     return {
-      cEostracerUrl: eostracerUrl,
+      baseUrl: txUrl,
       loading: true,
       tableData: [],
     };

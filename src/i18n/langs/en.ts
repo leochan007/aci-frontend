@@ -49,6 +49,9 @@ const en = {
     ClassifiedChartTitle: 'Bad Credit Classification Stats',
     ClassifiedChartSubtitle: 'Stats Data comes from AlphaCar Community!',
     ClassifiedChartNumber: 'Numbers',
+    EosSCAddr: 'AlphaCar Smart Contract',
+    EosSCInfo1: 'Please click',
+    EosSCInfo2: 'to check on EOS mainnet',
   },
 };
 
