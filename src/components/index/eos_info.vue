@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card height="350px">
-      <v-img :src="v_card_img" :aspect-ratio="aspectRatio"></v-img>
+      <v-img max-height="250px" :src="v_card_img" :aspect-ratio="aspectRatio"></v-img>
 
       <v-card-title primary-title>
         <div>
@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     aspectRatio() {
-      return 800 / 371;
+      return 2586 / 1200;
     },
     v_card_img() {
       return require('@/assets/img_car.jpg');
