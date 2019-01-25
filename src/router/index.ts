@@ -17,10 +17,10 @@ export default new Router({
       path: '/',
       component: Index,
     },
-    /*{
+    {
       path: '/stats',
       component: Stats,
-    },*/
+    },
     {
       path: '/search',
       component: SearchResult,

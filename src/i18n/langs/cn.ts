@@ -6,7 +6,7 @@ const cn = {
     no_aci_info: '没有相应不良诚信记录',
     Back: '返回',
     menu_home: '首页',
-    menu_stats: '统计',
+    menu_stats: '数据统计',
     menu_transaction: '记录列表',
     menu_about_us: '关于我们',
     search_type_all: '全部',

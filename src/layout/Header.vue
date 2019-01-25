@@ -148,7 +148,7 @@ export default {
           text: this.$t('message.menu_home'),
           url: '/',
         },
-        /*{ lvl: 1, text: this.$t('message.menu_stats'), url: '/stats' },*/
+        { lvl: 1, text: this.$t('message.menu_stats'), url: '/stats' },
         {
           lvl: 1,
           text: this.$t('message.menu_transaction'),
