@@ -46,7 +46,7 @@ const cn = {
     about_us_msg: '我们是阿尔法车链的团队!',
     tx_list: '不良诚信记录列表',
     empty_info: '无',
-    ClassifiedChartTitle: '不诚信类型分类统计',
+    ClassifiedChartTitle: '不诚信行为分类统计',
     ClassifiedChartSubtitle: '数据来自于阿尔法车链社区!',
     ClassifiedChartNumber: '数目',
     EosSCAddr: '阿尔法车链智能合约',

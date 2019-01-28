@@ -46,9 +46,9 @@ function generateColor(colorStart, colorEnd, colorCount) {
     for (let i = 0; i < len; i++) {
         alpha += (1.0 / len);
 
-        const r = <number> (start[0] * alpha + (1 - alpha) * end[0]);
-        const g = <number> (start[1] * alpha + (1 - alpha) * end[1]);
-        const b = <number> (start[2] * alpha + (1 - alpha) * end[2]);
+        const r = Math.floor(<number> (start[0] * alpha + (1 - alpha) * end[0]));
+        const g = Math.floor(<number> (start[1] * alpha + (1 - alpha) * end[1]));
+        const b = Math.floor(<number> (start[2] * alpha + (1 - alpha) * end[2]));
 
         saida.push('rgb(' + r + ',' + g + ',' + b + ')');
 
