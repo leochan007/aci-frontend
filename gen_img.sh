@@ -2,28 +2,21 @@
 
 set -x
 
-PREFIX=nexus.alphacario.com:8089
-FLAG=testnet_stg
+source module_def.sh
 
 if [ -n "$1" ]; then
   FLAG=$1
 fi
 
-if [ "testnet" == "$FLAG" ]; then
+if [ "testnet" != "$FLAG" ]; then
+  img_name=$img_name-stg
+fi
+
+if [ "prod" == "$FLAG" ]; then
   FLAG=
 fi
 
-VER=`git rev-parse HEAD`
-
-echo 'VER:'$VER
-
 rm -rf dist && yarn && TESTNET=$FLAG yarn run build
-
-img_name=aci-frontend-ts
-
-if [ "testnet_stg" == "$FLAG" ]; then
-  img_name=$img_name-stg
-fi
 
 docker rmi $img_name
 
