@@ -7,6 +7,7 @@ const cn = {
     Back: '返回',
     menu_home: '首页',
     menu_stats: '数据统计',
+    menu_rewards: '奖励排行榜',
     menu_transaction: '记录列表',
     menu_about_us: '关于我们',
     search_type_all: '全部',
@@ -52,6 +53,11 @@ const cn = {
     EosSCAddr: '阿尔法车链智能合约',
     EosSCInfo1: '请点击',
     EosSCInfo2: '在EOS主网查看',
+    issueNumber_prefix: '第',
+    issueNumber_suffix: '期',
+    ranking1: '冠军',
+    ranking2: '亚军',
+    ranking3: '季军',
   },
 };
 

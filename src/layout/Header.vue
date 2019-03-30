@@ -149,6 +149,7 @@ export default {
           url: '/',
         },
         { lvl: 1, text: this.$t('message.menu_stats'), url: '/stats' },
+        { lvl: 1, text: this.$t('message.menu_rewards'), url: '/rewards' },
         {
           lvl: 1,
           text: this.$t('message.menu_transaction'),
@@ -210,15 +211,6 @@ export default {
     };
   },
   mounted() {
-    /*
-    bus.$on(ON_PAGE_SIZE_CHANGE, (new_page_size) => {
-      this.page_size = new_page_size;
-    })
-
-    bus.$on(ON_PAGE_CHANGE, (new_page) => {
-      this.page = new_page;
-    })
-    */
 
     this.lang = this.$store.getters['acarStore/getLang'];
     this.onChange(this.lang);

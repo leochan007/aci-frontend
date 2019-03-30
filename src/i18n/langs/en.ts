@@ -7,6 +7,7 @@ const en = {
     Back: 'Back',
     menu_home: 'Home',
     menu_stats: 'Statistics',
+    menu_rewards: 'Rewards',
     menu_transaction: 'Records',
     menu_about_us: 'About Us',
     search_type_all: 'All',
@@ -52,6 +53,11 @@ const en = {
     EosSCAddr: 'AlphaCar Smart Contract',
     EosSCInfo1: 'Please click',
     EosSCInfo2: 'to check on EOS mainnet',
+    issueNumber_prefix: 'Issue No.',
+    issueNumber_suffix: '',
+    ranking1: 'Champion',
+    ranking2: 'Second Place',
+    ranking3: 'Third Place',
   },
 };
 

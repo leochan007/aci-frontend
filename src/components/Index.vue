@@ -10,7 +10,7 @@
   </div>
   <div class="row mt-4">
       <div class="col-sm">
-        <latest_aci></latest_aci>
+        <latest_ci></latest_ci>
       </div>
   </div>
 </div>
@@ -21,12 +21,12 @@ import bus from '@/utils/event';
 
 import txs_history from '@/components/index/txs_history.vue';
 import eos_info from '@/components/index/eos_info.vue';
-import latest_aci from '@/components/index/latest_aci.vue';
+import latest_ci from '@/components/index/latest_ci.vue';
 
 export default {
   components: {
     txs_history,
-    latest_aci,
+    latest_ci,
     eos_info,
   },
   data() {
