@@ -58,6 +58,8 @@ const cn = {
     ranking1: '冠军',
     ranking2: '亚军',
     ranking3: '季军',
+    releaseDate: '公布时间',
+    selectIssue: '请选择一条记录',
   },
 };
 

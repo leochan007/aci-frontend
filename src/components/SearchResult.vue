@@ -39,7 +39,7 @@
               <td>{{ transDatetime(props.item.recordTime) }}</td>
               <td>
                 <div
-                  v-if="props.item.txId === '' || props.item.txId === undefined"
+                  v-if="isBlank(props.item.txId)"
                 >{{ $t("message.empty_hash") }}</div>
                 <div v-else>
                   <div>
@@ -95,6 +95,8 @@ import qs from 'qs';
 import { toLocalTime } from '@/utils/dt_tools';
 
 import { txUrl } from '@/config/app_config';
+
+import voca from 'voca';
 
 export default {
   components: {},
@@ -162,6 +164,10 @@ export default {
     $route: 'fetchData',
   },
   methods: {
+    isBlank(field) {
+      return voca.isBlank(field);
+    },
+    
     transDatetime(datetime) {
       return toLocalTime(datetime, this.$i18n.locale);
     },

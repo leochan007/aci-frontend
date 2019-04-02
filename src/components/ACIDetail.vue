@@ -46,7 +46,7 @@
             <v-flex class='red--text'>{{ moralCrisisType }}</v-flex>
           </v-layout>
           <v-layout wrap>
-            <v-flex class="body-2" xs4>{{ $t("message.tbl_record_time") }} :</v-flex>
+            <v-flex class="body-2" xs4>{{ $t("message.tbl_record_time") }}:</v-flex>
             <v-flex>{{ transDatetime(record_time) }}</v-flex>
           </v-layout>
         </v-layout>
@@ -63,7 +63,7 @@
         <v-divider></v-divider>
         <v-layout wrap class="text-truncate">
           <v-flex class="body-2" xs3 md2>{{ $t("message.tbl_tx_id") }}:</v-flex>
-          <v-flex v-if="tx_id=='' || tx_id==undefined">{{ $t("message.empty_hash") }}</v-flex>
+          <v-flex v-if="isBlank(tx_id)">{{ $t("message.empty_hash") }}</v-flex>
           <v-flex v-else>
             <a :href="baseUrl + tx_id">{{ tx_id }}</a>
           </v-flex>
@@ -91,6 +91,8 @@ import {
   txUrl,
 } from '@/config/app_config';
 
+import voca from 'voca';
+
 export default {
   components: {},
   computed: {},
@@ -116,6 +118,10 @@ export default {
     this.fetchData();
   },
   methods: {
+    isBlank(field) {
+      return voca.isBlank(field);
+    },
+    
     transDatetime(datetime) {
       return toLocalTime(datetime, this.$i18n.locale);
     },

@@ -58,6 +58,8 @@ const en = {
     ranking1: 'Champion',
     ranking2: 'Second Place',
     ranking3: 'Third Place',
+    releaseDate: 'Release Date',
+    selectIssue: 'Please Select a Record',
   },
 };
 

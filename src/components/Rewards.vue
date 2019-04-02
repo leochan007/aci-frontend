@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import bus from "@/utils/event";
+import bus from '@/utils/event';
 
-import ranking from "@/components/rewards/ranking.vue";
+import ranking from '@/components/rewards/ranking.vue';
 
 export default {
   components: {
@@ -32,7 +32,7 @@ export default {
     fetchData() {
       const self = this;
 
-      self.$http.get("/aci_api/rewardrecord/classification").then(
+      self.$http.get('/aci_api/rewardrecord/classification').then(
         response => {
           if (response.status === 200) {
             const data = response.data.data.txs_count;
