@@ -35,6 +35,10 @@ Vue.use(Vuetify, { theme });
 Vue.prototype.$http = request;
 Vue.config.productionTip = false;
 
+import VModal from 'vue-js-modal';
+
+Vue.use(VModal, { dialog: true, dynamic: true, injectModalsContainer: true });
+
 new Vue({
   i18n,
   store,

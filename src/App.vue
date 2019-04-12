@@ -1,5 +1,6 @@
 <template>
 <v-app>
+  <modals-container />
   <Header />
   <Main />
   <Footer />

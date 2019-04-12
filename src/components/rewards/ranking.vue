@@ -1,6 +1,6 @@
 <template>
   <v-layout justify-space-between pa-3>
-    <v-flex xs5>
+    <v-flex xs12>
       <v-treeview
         :active.sync="active"
         :items="rankingList"
@@ -26,48 +26,6 @@
         </template>
       </v-treeview>
     </v-flex>
-    <v-flex d-flex text-xs-center>
-      <v-scroll-y-transition mode="out-in">
-        <div
-          v-if="!selected"
-          class="title grey--text text--lighten-1 font-weight-light"
-          style="align-self: center;"
-        >{{ $t("message.selectIssue") }}</div>
-        <v-card v-else :key="selectedId" class="pt-4 mx-auto" flat max-width="400">
-          <v-card-text>
-            <h3
-              class="headline mb-2"
-            >{{ $t("message.issueNumber_prefix") }}{{ rrInfo.issueNumber }}{{ $t("message.issueNumber_suffix") }}</h3>
-            <div class="red--text mb-2 subheading font-weight-bold">
-              <img v-if="rrInfo.ranking === 1" src="@/assets/gold.png" alt="avatar">
-              <img v-else-if="rrInfo.ranking === 2" src="@/assets/silver.png" alt="avatar">
-              <img v-else src="@/assets/bronze.png" alt="avatar">
-              <div class="yellow--text" v-if="rrInfo.ranking === 1">{{ $t("message.ranking1") }}</div>
-              <div class="grey--text" v-else-if="rrInfo.ranking === 2">{{ $t("message.ranking2") }}</div>
-              <div class="brown--text" v-else>{{ $t("message.ranking3") }}</div>
-            </div>
-            <v-divider></v-divider>
-            <v-layout text-xs-left wrap>
-              <v-flex tag="strong" xs5 text-xs-right mr-3 mb-2>{{ $t("message.tbl_name") }}:</v-flex>
-              <v-flex class="blue--text">{{ rrInfo.name }}</v-flex>
-            </v-layout>
-          </v-card-text>
-          <v-layout text-xs-left wrap>
-            <v-flex tag="strong" xs5 text-xs-right mr-3 mb-2>{{ $t("message.tbl_account") }}:</v-flex>
-            <v-flex>{{ rrInfo.account }}</v-flex>
-            <v-flex tag="strong" xs5 text-xs-right mr-3 mb-2>{{ $t("message.releaseDate") }}:</v-flex>
-            <v-flex>{{ transDate(rrInfo.recordTime) }}</v-flex>
-          </v-layout>
-          <v-layout text-xs-left wrap>
-            <v-flex tag="strong" xs5 text-xs-right mr-3 mb-2>{{ $t("message.tbl_tx_id") }}:</v-flex>
-            <v-flex v-if="isBlank(rrInfo.txId)">{{ $t("message.empty_hash") }}</v-flex>
-            <v-flex v-else>
-              <a :href="baseUrl + rrInfo.txId">{{ rrInfo.txId }}</a>
-            </v-flex>
-          </v-layout>
-        </v-card>
-      </v-scroll-y-transition>
-    </v-flex>
   </v-layout>
 </template>
 
@@ -90,13 +48,15 @@ import { toLocalDate } from '@/utils/dt_tools';
 
 import voca from 'voca';
 
+import infoDlg from '@/components/rewards/infoDlg.vue';
+
 import {
   txUrl,
 } from '@/config/app_config';
 
 export default {
   props: {
-    category: ''
+    category: '',
   },
   data() {
     return {
@@ -112,25 +72,23 @@ export default {
   computed: {
     selected() {
       const self = this;
-      if (!self.active.length) return undefined;
+      if (!self.active.length) {
+        console.log('selectedId = ""');
+        self.selectedId = '';
+        return false;
+      }
       self.selectedId = self.active[0];
-      return self.selectedId;
+      console.log('selectedId = ', self.selectedId);
+      return true;
     },
   },
   methods: {
-    isBlank(field) {
-      return voca.isBlank(field);
-    },
-
-    transDate(datetime) {
-      return toLocalDate(datetime, this.$i18n.locale);
-    },
 
     fetchData(category) {
       const self = this;
 
       const params = {
-        activity_type: self.category
+        activity_type: self.category,
       };
 
       self.$http
@@ -144,30 +102,54 @@ export default {
               self.rankingList = response.data.data.txs_count;
             }
           },
-        (error) => {
-            // console.log(error);
-        },
         );
     },
+
+    closeInfo() {
+        this.$modal.hide('reward_info');
+    },
+
+    beforeClose() {
+      console.log('beforeClose exec!');
+      this.active = [];
+    },
+
+    openInfo() {
+      // beforeClose: this.beforeClose
+        this.$modal.show(infoDlg, 
+        { selectedId: this.selectedId, rrInfo: this.rrInfo }, 
+        {
+        }, {
+          'before-close': (event) => { this.beforeClose(); }
+        });
+    },
+
+  },
+  components: {
   },
   watch: {
     category: function(newCategory, oldCategory) {
       this.fetchData(newCategory);
     },
-    selectedId: function(newId, oldId) {
+    active(newActive, oldActive) {
       const self = this;
+      if (!self.active.length) {
+        self.selectedId = '';
+        return false;
+      } else {
+        self.selectedId = self.active[0];
 
-      self.$http.get('/aci_api/rewardrecord/hash/' + newId).then(
-        (response) => {
-          if (response.status === 200) {
-            self.rrInfo = response.data.data;
-            // console.log(self.rrInfo);
-          }
-        },
-        (error) => {
-            // console.log(error);
+        self.$http.get('/aci_api/rewardrecord/hash/' + self.selectedId).then(
+          (response) => {
+            if (response.status === 200) {
+              self.rrInfo = response.data.data;
+              self.openInfo();
+            }
         },
       );
+
+      }
+      return true;
     },
   },
 };

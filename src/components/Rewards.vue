@@ -14,7 +14,7 @@ import ranking from '@/components/rewards/ranking.vue';
 
 export default {
   components: {
-    ranking
+    ranking,
   },
   data() {
     return {
@@ -33,27 +33,22 @@ export default {
       const self = this;
 
       self.$http.get('/aci_api/rewardrecord/classification').then(
-        response => {
+        (response) => {
           if (response.status === 200) {
             const data = response.data.data.txs_count;
             self.categories = [];
-            for (var ind in data) {
-              console.log(JSON.stringify(data[ind]));
+            for (let ind = 0; ind < data.length; ind++) {
               self.categories.push(data[ind]._id);
             }
 
             if (self.categories.length > 0) {
               self.category = self.categories[0];
-              console.log('self.category:', self.category);
             }
             self.loading = false;
           }
         },
-        error => {
-          // console.log(error);
-        }
       );
-    }
-  }
+    },
+  },
 };
 </script>
